@@ -1,62 +1,88 @@
 package com.driver;
 
-import java.net.StandardSocketOptions;
-
 public class Pizza {
 
     private int price;
     private Boolean isVeg;
     private String bill;
-
-
+    private int totalPrice;
+    private boolean takeAway;
+    private boolean addCheese;
+    private boolean addToppings;
+    private boolean isGenerated;
     public Pizza(Boolean isVeg){
-        this.isVeg=isVeg;
-        if(isVeg==true) this.price=300;
-        else this.price=400;
+
+        this.isVeg = isVeg;
+        // your code goes here
+        if(isVeg){price=300;}
+        else{price=400;}
+
+        totalPrice=price;
+        addCheese=false;
+        addToppings=false;
+        takeAway=false;
+        isGenerated=false;
+        bill="";
 
     }
 
     public int getPrice(){
-        return this.price;
+        return this.totalPrice;
     }
-    boolean cheese=true;
+
     public void addExtraCheese(){
         // your code goes here
-        if(cheese==true) {
-            price = price + 80;
-            System.out.println("Extra Cheese Added: 80");
-        cheese=false;
+        if(!addCheese)
+        {
+            totalPrice+=80;
+            addCheese=true;
         }
     }
-    boolean topping=true;
+
     public void addExtraToppings(){
         // your code goes here
-        if(cheese==false) {
-            if (topping == true) {
-                if (isVeg == true) {
-                    System.out.println("Extra Toppings Added: 70");
-                    price += 70;
-                } else {
-                    System.out.println("Extra Toppings Added: 120");
-                    price += 120;
-                }
-                topping = false;
-            }
+        if(!addToppings && isVeg){
+            totalPrice+=70;
+            addToppings=true;
+        }else if (!addToppings && !isVeg)
+        {
+            totalPrice+=120;
+            addToppings=true;
         }
     }
-    boolean take=true;
-   public void addTakeaway(){
-        // your code goes here
-       if(take==true){
-        price+=20;
-        System.out.println("Paperbag Added: 20");
-        take=false;
-       }
 
+    public void addTakeaway(){
+        // your code goes here
+        if(!takeAway){
+            totalPrice+=20;
+            takeAway=true;
+        }
     }
 
     public String getBill(){
         // your code goes here
-         return ("Total price: "+price);
+        if(!isGenerated){
+            bill+= "Base Price Of The Pizza: "+ price+"\n";
+            if(addCheese){
+                bill+="Extra Cheese Added: "+80+"\n";
+            }
+            if(addToppings){
+                if(isVeg){
+                    bill+="Extra Toppings Added: "+70+"\n";
+                }
+                else{
+                    bill+="Extra Toppings Added: " +120+"\n";
+                }
+            }
+            if(takeAway){
+                bill+="Paperbag Added: "+20+"\n";
+            }
+            bill += "Total Price: " + totalPrice + "\n";
+            isGenerated=true;
+        }
+
+        return this.bill;
     }
+
+
 }
